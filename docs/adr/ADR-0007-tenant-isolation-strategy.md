@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (revisado — versão anterior propunha modelo híbrido ambíguo) |
+| **Status** | Aceito, revisado parcialmente por **ADR-0011** — PostgreSQL deixou de ser o único motor suportado (SQL Server suportado desde a Fase 1, Oracle arquitetado para o futuro). RLS continua obrigatório e sem exceção sempre que o motor for PostgreSQL; o restante deste documento permanece válido. (Revisão anterior a esta: versão original propunha modelo híbrido ambíguo.) |
 | **Data** | 2026-07-12 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-004 (Concurrency and Transactions), LL-007 (Change Governance) |

@@ -23,7 +23,7 @@ por escrito no ADR correspondente, não em um comentário de código:
 Se a decisão for cara de reverter (afeta persistência, tenancy,
 vocabulário do domínio, ou introduz conceito novo no Kernel), ela
 precisa de um ADR próprio em `docs/adr/ADR-00XX-nome.md`, seguindo o
-formato dos ADR-0006 a 0009. Não implementar antes de ratificar.
+formato dos ADR-0006 a 0011. Não implementar antes de ratificar.
 
 ## Regras que não podem ser esquecidas em nenhuma sessão
 
@@ -33,14 +33,21 @@ formato dos ADR-0006 a 0009. Não implementar antes de ratificar.
   Nenhum `Command`, `EventStore`, `SagaCoordinator`, `ProcessManager`
   ou `SnapshotStore` sem caso de uso concreto do roadmap que os exija.
   Um `Module` NUNCA atravessa mais de um `Bounded Context`.
-- **Isolamento de dados (ADR-0007):** Row-Level Security compartilhado
-  é o único modelo de persistência multi-tenant até a Fase 7. Toda
-  tabela de dado de negócio DEVE ter `tenant_id` + política de RLS
-  desde a primeira migração — sem exceção, sem schema/database
-  dedicado. `Tenant` é a única tabela sem `tenant_id` próprio (é a
-  raiz da fronteira, não dado dentro dela). CI DEVE falhar o build se
-  uma tabela nova com dado de tenant não tiver RLS correspondente (ver
-  `tests/rls/`).
+- **Isolamento de dados (ADR-0007, revisado parcialmente por
+  ADR-0011):** PostgreSQL e SQL Server são motores de produção
+  suportados desde a Fase 1 (Oracle arquitetado, não implementado).
+  Quando o motor for PostgreSQL, Row-Level Security é obrigatório e sem
+  exceção — toda tabela de dado de negócio DEVE ter `tenant_id` +
+  política de RLS desde a primeira migração. Quando o motor for SQL
+  Server, o equivalente obrigatório é Security Policy + predicate
+  function via `SESSION_CONTEXT`. `Tenant` é a única tabela sem
+  `tenant_id` próprio em qualquer motor (é a raiz da fronteira, não
+  dado dentro dela). Aggregates e regras de negócio NUNCA acessam
+  SQL/DbContext diretamente — só interfaces de Repository (ADR-0011),
+  para que suportar um motor novo não exija tocar o domínio. CI DEVE
+  falhar o build se uma tabela nova com dado de tenant não tiver a
+  política de isolamento correspondente **em cada motor suportado**
+  (ver `tests/rls/`).
 - **Local autoritativo de regra (ADR-0008):** antes de escrever
   qualquer lógica nova, classificar em um dos 7 tipos da tabela do
   ADR-0008 (Invariante de domínio, Política de negócio,
@@ -69,13 +76,16 @@ formato dos ADR-0006 a 0009. Não implementar antes de ratificar.
   Outbox (AR-TXN-003) é Fase 3. Event sourcing como padrão global
   exige ADR próprio (AR-TXN-006) — não assumir.
 
-## Decisões técnicas ainda pendentes — não assumir
+## Decisões técnicas já fechadas (além do checklist acima)
 
-- **Linguagem principal de backend:** ainda não escolhida (Foundation
-  v2, VI.3, item 3 — "a definir via spike técnico"). Não escrever
-  código de aplicação em `src/` assumindo uma linguagem até essa
-  decisão virar ADR. `migrations/` já pode usar SQL puro (PostgreSQL
-  já é decisão fechada, VI.1).
+- **Linguagem principal de backend: C#/.NET** (ADR-0010). Todos os
+  módulos do Kernel (`tenancy`, `identity`, `sales`, e futuramente
+  `policy`/`workflow`) rodam como módulos internos do mesmo processo,
+  na mesma linguagem — nenhum serviço físico separado antes da hora
+  (AR-RUL-005). Frontend continua TypeScript (VI.1) — as duas camadas
+  não compartilham linguagem, só o contrato REST/JSON+OpenAPI.
+
+## Decisões técnicas ainda pendentes — não assumir
 - Kubernetes, Kafka/NATS, GraphQL, múltiplas linguagens no backend,
   banco vetorial dedicado, marketplace público — todos explicitamente
   adiados (Foundation v2, VI.2). Não introduzir sem necessidade
