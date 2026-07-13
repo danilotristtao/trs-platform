@@ -23,7 +23,7 @@ por escrito no ADR correspondente, não em um comentário de código:
 Se a decisão for cara de reverter (afeta persistência, tenancy,
 vocabulário do domínio, ou introduz conceito novo no Kernel), ela
 precisa de um ADR próprio em `docs/adr/ADR-00XX-nome.md`, seguindo o
-formato dos ADR-0006 a 0011. Não implementar antes de ratificar.
+formato dos ADR-0006 a 0013. Não implementar antes de ratificar.
 
 ## Regras que não podem ser esquecidas em nenhuma sessão
 
@@ -57,8 +57,11 @@ formato dos ADR-0006 a 0011. Não implementar antes de ratificar.
   Projection Layer. Authorization Layer ("pode tentar?") e Policy Layer
   ("é permitido neste contexto?") são camadas diferentes — não
   duplicar regra entre elas.
-- **Modelo de domínio da Fase 1 (ADR-0009):** os quatro Aggregates
-  desta fase são `Tenant`, `User`, `SalesOrder`, `Customer`. `role` em
+- **Modelo de domínio da Fase 1 (ADR-0009, revisado parcialmente por
+  ADR-0013):** os Aggregates desta fase são `Tenant`, `User`,
+  `SalesOrder`, `Customer` (ADR-0009) e `Company` (ADR-0013, Module
+  `tenancy` — estrutura de matriz/filial dentro do Tenant, não um
+  Tenant por filial). `role` em
   `User` tem exatamente dois valores fixos (`tenant_admin`, `member`) —
   não expandir informalmente antes da Fase 2. `reason_code` de
   Rationale tem vocabulário controlado (`routine_creation` como
@@ -75,6 +78,26 @@ formato dos ADR-0006 a 0011. Não implementar antes de ratificar.
   Rationale mínimo. Decision Envelope (AR-EXP-001/002) é Fase 2.
   Outbox (AR-TXN-003) é Fase 3. Event sourcing como padrão global
   exige ADR próprio (AR-TXN-006) — não assumir.
+- **Auditoria e logging (ADR-0012):** toda alteração relevante (não só
+  criação) precisa gerar registro em `audit_events`/`audit_event_changes`
+  (quem, quando, campo, valor antigo/novo) e eventos de segurança em
+  `security_events` — nunca escrito direto pelos Modules, sempre via
+  `IAuditService`; nunca via trigger de banco (a intenção de negócio só
+  a aplicação sabe, o banco só vê que um valor mudou). Tabelas
+  append-only (só `INSERT`), verificado por teste de CI. `business_events`
+  (Event Store), `workflow_history` e `integration_events` continuam
+  fora do escopo até os próprios ADRs/fases que os liberam (regra
+  acima) — não reintroduzir informalmente dentro do mecanismo de
+  auditoria.
+- **Estrutura de Empresa/Filial (ADR-0013):** `Company` é Aggregate
+  Root único para matriz e filial (auto-referência via
+  `parent_company_id`, só dois níveis — nunca filial de filial), Module
+  `tenancy`, nunca `sales`. FK composta `(tenant_id, parent_company_id)`
+  é obrigatória — uma FK simples permitiria filial referenciar matriz de
+  outro tenant. Código de negócio gerado via `config_code_sequences`
+  (tabela portável, `SELECT ... FOR UPDATE` na mesma transação), nunca
+  `SEQUENCE` nativa nem trigger. Nenhuma tabela de configuração por
+  tabela do sistema inteiro (LL-001).
 
 ## Decisões técnicas já fechadas (além do checklist acima)
 
@@ -98,7 +121,7 @@ docs/adr/              → ADRs ratificados (fonte de verdade normativa)
 docs/lessons-learned/   → LL-001 a LL-008 (contexto histórico e critérios derivados)
 docs/foundation/        → TRS_Foundation_v2.md (requisitos AR-*, roadmap, arquitetura de referência)
 migrations/             → schema PostgreSQL, com RLS desde a primeira migração
-src/tenancy/            → Module `tenancy` (Aggregate Tenant) — Bounded Context Trust & Governance
+src/tenancy/            → Module `tenancy` (Aggregates Tenant, Company — ADR-0013) — Bounded Context Trust & Governance
 src/identity/           → Module `identity` (Aggregate User) — Bounded Context Trust & Governance
 src/sales/              → Module `sales` (Aggregates SalesOrder, Customer) — Bounded Context Sales
 tests/rls/              → teste de CI que falha o build se uma tabela com tenant_id não tiver RLS
@@ -108,5 +131,7 @@ tests/rls/              → teste de CI que falha o build se uma tabela com tena
 
 Nenhuma operação relevante ocorre sem: autorização registrada (role
 `tenant_admin`/`member` verificado), autor identificado, e motivo
-capturado (`reason_code`, com `human_statement` quando aplicável).
-Isso deve ser um teste automatizado, não uma checagem manual.
+capturado (`reason_code`, com `human_statement` quando aplicável) — na
+criação e em toda alteração posterior, via `audit_events`/
+`audit_event_changes` (ADR-0012). Isso deve ser um teste automatizado,
+não uma checagem manual.
