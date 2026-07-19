@@ -745,6 +745,7 @@ necessariamente como cargos separados:
 | ADR-0014 (Architecture Definition Adoption) | LL-002, LL-005, LL-007 | AR-TXN-007, AR-RUL-005, AR-EXT-001, AR-EXT-002, AR-CHG-003 | 0 |
 | ADR-0015 (Fase 1 Implementation Reversion) | LL-003, LL-007 | AR-CHG-003, AR-CHG-005 | 1 |
 | ADR-0016 (Nested Layout Retroactive Ratification) | LL-007 | AR-CHG-003, AR-RUL-005 | 0/1 (revisa critério do ADR-0014) |
+| ADR-0017 (Platform/Deployment/Tenant Scope) | LL-001, LL-005, LL-007 | AR-TXN-001, AR-TXN-002, AR-KNW-003, AR-EXP-005, AR-EXT-001, AR-CHG-003 | 0 (revisa parcialmente ADR-0006 e ADR-0007) |
 
 **Requisito ↔ Mecanismo ↔ Evidência (amostra — expandir conforme a implementação avança)**
 

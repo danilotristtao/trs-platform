@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito, revisado parcialmente por **ADR-0011** — PostgreSQL deixou de ser o único motor suportado (SQL Server suportado desde a Fase 1, Oracle arquitetado para o futuro). RLS continua obrigatório e sem exceção sempre que o motor for PostgreSQL; o restante deste documento permanece válido. (Revisão anterior a esta: versão original propunha modelo híbrido ambíguo.) |
+| **Status** | Aceito, revisado parcialmente por **ADR-0011** e **ADR-0017**. ADR-0011: PostgreSQL deixou de ser o único motor suportado (SQL Server suportado desde a Fase 1, Oracle arquitetado para o futuro). ADR-0017: reconhece um terceiro nível de escopo (Platform Scope, Deployment Scope) além de Tenant Scope — RLS de **Tenant Scope continua obrigatório e sem exceção**, sem alteração; as duas exceções documentadas (raiz da fronteira = `Tenant`; conteúdo de referência = Platform Scope) e o padrão `EXISTS`-based para Deployment Scope estão detalhados no ADR-0017, não neste documento. (Revisão anterior a estas: versão original propunha modelo híbrido ambíguo.) |
 | **Data** | 2026-07-12 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-004 (Concurrency and Transactions), LL-007 (Change Governance) |

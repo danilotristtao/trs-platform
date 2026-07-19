@@ -34,15 +34,24 @@ formato dos ADRs já existentes em `docs/adr/`. Não implementar antes de ratifi
   ou `SnapshotStore` sem caso de uso concreto do roadmap que os exija.
   Um `Module` NUNCA atravessa mais de um `Bounded Context`.
 - **Isolamento de dados (ADR-0007, revisado parcialmente por
-  ADR-0011):** PostgreSQL e SQL Server são motores de produção
-  suportados desde a Fase 1 (Oracle arquitetado, não implementado).
-  Quando o motor for PostgreSQL, Row-Level Security é obrigatório e sem
-  exceção — toda tabela de dado de negócio DEVE ter `tenant_id` +
-  política de RLS desde a primeira migração. Quando o motor for SQL
-  Server, o equivalente obrigatório é Security Policy + predicate
-  function via `SESSION_CONTEXT`. `Tenant` é a única tabela sem
-  `tenant_id` próprio em qualquer motor (é a raiz da fronteira, não
-  dado dentro dela). Aggregates e regras de negócio NUNCA acessam
+  ADR-0011 e ADR-0017):** PostgreSQL e SQL Server são motores de
+  produção suportados desde a Fase 1 (Oracle arquitetado, não
+  implementado). Quando o motor for PostgreSQL, Row-Level Security é
+  obrigatório e sem exceção **para dado Tenant Scope** — toda tabela de
+  dado de negócio DEVE ter `tenant_id` + política de RLS desde a
+  primeira migração. Quando o motor for SQL Server, o equivalente
+  obrigatório é Security Policy + predicate function via
+  `SESSION_CONTEXT`. Toda tabela nova DEVE ser classificada
+  explicitamente em um dos três escopos do ADR-0017 antes de existir:
+  **Tenant Scope** (`tenant_id` + RLS, o padrão default), **Platform
+  Scope** (sem `tenant_id`, sem RLS, conteúdo de referência governado
+  pela TRS — ex.: `IdentifierType` oficial) ou **Deployment Scope**
+  (sem `tenant_id` único, RLS via tabela de disponibilidade
+  `EXISTS`-based, compartilhado entre Tenants explicitamente listados
+  do mesmo deployment). `Tenant` é a única tabela sem `tenant_id`
+  próprio por ser raiz da fronteira (motivo diferente de Platform
+  Scope, que não tem `tenant_id` por ser conteúdo global de
+  referência). Aggregates e regras de negócio NUNCA acessam
   SQL/DbContext diretamente — só interfaces de Repository (ADR-0011),
   para que suportar um motor novo não exija tocar o domínio. CI DEVE
   falhar o build se uma tabela nova com dado de tenant não tiver a
