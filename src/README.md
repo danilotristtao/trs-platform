@@ -49,7 +49,7 @@ reescrever o código. Isso **não** reverte nenhum ADR: os Aggregates e
 invariantes continuam ratificados em ADR-0009/0011/0013, só ainda não
 têm código correspondente.
 
-## Deliberadamente fora do skeleton (phase-gating, ADR-0006 Regra 24/25)
+## Deliberadamente fora do skeleton (phase-gating, `TRS_Architecture_Definition.md` Regra 24/25, com base na meta-regra do ADR-0006)
 
 `Kernel/Authorization`, `Kernel/Metadata`, `Kernel/Configuration`,
 `Kernel/Extensibility`, `Processes/`,

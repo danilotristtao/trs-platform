@@ -484,10 +484,10 @@ extensão natural do que a Fase 1 já precisa construir.
 | Área | Decisão inicial | Requisito(s) relacionado(s) | Razão |
 |---|---|---|---|
 | Arquitetura | Monólito modular | AR-TXN-006, AR-TXN-007 | Reduz risco de LL-004 e facilita LL-002/LL-006 |
-| Backend | Uma linguagem principal (a definir via spike técnico) | — | Evita poliglotismo prematuro (Rust+Go+TS simultâneos) |
+| Backend | C#/.NET (decidido — ver ADR-0010) | AR-TXN-007, AR-RUL-005, AR-EXP-002 | Equivalência técnica entre candidatos avaliados; decisão por experiência prévia real da equipe, evitando poliglotismo prematuro |
 | Frontend | TypeScript + React/Next.js | — | Console administrativo e designers de política/workflow |
 | Banco de dados | PostgreSQL e SQL Server (Fase 1); Oracle arquitetado, não implementado — **ver ADR-0011, revisão parcial de ADR-0007** | AR-TXN-001 a 004 | ACID, constraints, JSONB, Row-Level Security (Postgres) / Security Policy (SQL Server), maturidade; suporte a múltiplos motores decidido por razão comercial, não técnica |
-| Eventos | Outbox no PostgreSQL inicialmente; NATS JetStream quando houver consumidores reais | AR-TXN-003, AR-TXN-004 | Consistência antes de distribuição |
+| Eventos | Outbox no PostgreSQL — **Fase 3, não baseline do MVP** (ver Parte VII e ADR-0012, que adia `integration_events`/outbox explicitamente); NATS JetStream quando houver consumidores reais, também pós-MVP | AR-TXN-003, AR-TXN-004 | Consistência antes de distribuição — Fase 1/2 usam apenas Audit Record/Rationale (ADR-0012), sem outbox |
 | API externa | REST/JSON + OpenAPI | — | Contrato simples, sem redundância de protocolos |
 | API interna | Chamadas in-process inicialmente; gRPC apenas após separação física real | AR-RUL-005 | Evita protocolo prematuro para um sistema que ainda é um monólito |
 | Identidade | OIDC/OAuth com provedor consolidado | — | Não reinventar autenticação |
@@ -517,7 +517,7 @@ extensão natural do que a Fase 1 já precisa construir.
 1. TRS como AI-Native Business Operating Platform (registra a Parte I como decisão formal).
 2. Monólito modular como arquitetura inicial.
 3. Escolha da linguagem principal de backend — **ver ADR-0010, Backend Language, em `docs/adr/ADR-0010-backend-language.md`** (C#/.NET; decidida por experiência prévia real da equipe, diante de equivalência técnica entre os candidatos avaliados).
-4. PostgreSQL como system of record único no início.
+4. ~~PostgreSQL como system of record único no início~~ — **revisado por ADR-0011**: PostgreSQL e SQL Server são motores de produção suportados desde a Fase 1 (Oracle arquitetado, não implementado), por decisão comercial explícita, não técnica.
 5. Taxonomia formal de tipos de regra/configuração — **ver ADR-0008, Rule Placement Standard, em VI.4** (resolve a lacuna de LL-001 e LL-002).
 6. Modelo de metadados e extensão (Extension Manifest) — depende do vocabulário definido em **ADR-0006, Core Domain Meta Model, em VI.4**.
 7. Estrutura do Decision Envelope (LL-006).
@@ -723,8 +723,14 @@ necessariamente como cargos separados:
 | ADR-0006 (Meta Model) | LL-002, LL-005 | AR-RUL-001, AR-EXT-002, AR-TXN-001, AR-EXP-001 | 0 |
 | ADR-0007 (Tenancy) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-KNW-003, AR-EXP-005 | 0 (revisado parcialmente por ADR-0011 na Fase 1) |
 | ADR-0008 (Rule Placement) | LL-001, LL-002 | AR-CFG-001, AR-RUL-001, AR-RUL-002 | 0 |
+| ADR-0009 (Domain Model Fase 1) | LL-001, LL-002, LL-003, LL-004, LL-006, LL-007 | AR-TXN-001, AR-TXN-007, AR-RUL-001 a 003, AR-KNW-001, AR-KNW-006, AR-EXP-001 (parcial) | 1 |
 | ADR-0010 (Backend Language) | LL-002, LL-004, LL-006 | AR-TXN-007, AR-RUL-005, AR-EXP-002 | 0→1 |
 | ADR-0011 (Multi-Database Support) | LL-004, LL-007, LL-008 | AR-TXN-001, AR-TXN-002, AR-KNW-003, AR-EXP-005, AR-CHG-003, AR-EXC-004 | 1 |
+| ADR-0012 (Audit and Logging) | LL-001, LL-007, LL-008 | AR-CHG-005, AR-KNW-001, AR-TXN-001, AR-TXN-002, AR-KNW-003, AR-EXP-005, AR-TXN-006 (limite) | 1 |
+| ADR-0013 (Company/Branch) | LL-001, LL-005, LL-007, LL-008 | AR-TXN-001, AR-TXN-002, AR-KNW-003, AR-EXP-005, AR-EXT-006 | 1 (revisão parcial de ADR-0009) |
+| ADR-0014 (Architecture Definition Adoption) | LL-002, LL-005, LL-007 | AR-TXN-007, AR-RUL-005, AR-EXT-001, AR-EXT-002, AR-CHG-003 | 0 |
+| ADR-0015 (Fase 1 Implementation Reversion) | LL-003, LL-007 | AR-CHG-003, AR-CHG-005 | 1 |
+| ADR-0016 (Nested Layout Retroactive Ratification) | LL-007 | AR-CHG-003, AR-RUL-005 | 0/1 (revisa critério do ADR-0014) |
 
 **Requisito ↔ Mecanismo ↔ Evidência (amostra — expandir conforme a implementação avança)**
 

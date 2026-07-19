@@ -59,6 +59,6 @@ O que este ADR estabelece de fato: quando uma nova decisão estrutural for tomad
 
 ## Critérios para Revisão Futura
 
-- Revisitar quando um segundo módulo de negócio (além de `sales`) entrar em implementação — decidir explicitamente, naquele momento, se o layout aninhado `TRS.Kernel`/`Modules` é adotado.
+- ~~Revisitar quando um segundo módulo de negócio (além de `sales`) entrar em implementação — decidir explicitamente, naquele momento, se o layout aninhado `TRS.Kernel`/`Modules` é adotado.~~ **Superado pelo ADR-0016** (2026-07-19): a migração para o layout aninhado ocorreu antes deste critério ser satisfeito, sem ADR revisando a decisão no momento. O ADR-0016 ratifica retroativamente a manutenção do layout aninhado (já que não havia código de domínio real a proteger) e reafirma que qualquer nova reestruturação física, a partir do primeiro módulo de negócio real implementado, volta a exigir ADR próprio.
 - Revisitar sempre que um dos ADRs referenciados (0006–0013) for revisado de forma que altere vocabulário ou phase-gating assumido por este documento.
 - Revisitar quando o suporte a Oracle (ADR-0011, arquitetado mas não implementado) se tornar real — confirmar se a separação `TRS.Infrastructure.Database` por provider se sustenta para um terceiro motor.
