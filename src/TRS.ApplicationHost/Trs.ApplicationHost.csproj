@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\TRS.BuildingBlocks\Trs.BuildingBlocks.csproj" />
+    <ProjectReference Include="..\TRS.Kernel\Tenancy\Trs.Kernel.Tenancy.csproj" />
+    <ProjectReference Include="..\TRS.Kernel\Identity\Trs.Kernel.Identity.csproj" />
+    <ProjectReference Include="..\TRS.Kernel\Audit\Trs.Kernel.Audit.csproj" />
+    <ProjectReference Include="..\TRS.Infrastructure\Database\PostgreSQL\Trs.Infrastructure.Database.PostgreSQL.csproj" />
+    <ProjectReference Include="..\TRS.Infrastructure\Database\SqlServer\Trs.Infrastructure.Database.SqlServer.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

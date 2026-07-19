@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\TRS.BuildingBlocks\Trs.BuildingBlocks.csproj" />
+    <ProjectReference Include="..\..\..\TRS.Kernel\Tenancy\Trs.Kernel.Tenancy.csproj" />
+    <ProjectReference Include="..\..\..\TRS.Kernel\Identity\Trs.Kernel.Identity.csproj" />
+    <ProjectReference Include="..\..\..\TRS.Kernel\Audit\Trs.Kernel.Audit.csproj" />
+  </ItemGroup>
+
+</Project>
