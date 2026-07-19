@@ -119,13 +119,24 @@ formato dos ADR-0006 a 0013. Não implementar antes de ratificar.
 ```
 docs/adr/              → ADRs ratificados (fonte de verdade normativa)
 docs/lessons-learned/   → LL-001 a LL-008 (contexto histórico e critérios derivados)
-docs/foundation/        → TRS_Foundation_v2.md (requisitos AR-*, roadmap, arquitetura de referência)
+docs/foundation/        → TRS_Foundation_v2.md (requisitos AR-*, roadmap) e
+                          TRS_Architecture_Definition.md (arquitetura-alvo de longo
+                          prazo da solution — ADR-0014)
 migrations/             → schema PostgreSQL, com RLS desde a primeira migração
 src/tenancy/            → Module `tenancy` (Aggregates Tenant, Company — ADR-0013) — Bounded Context Trust & Governance
 src/identity/           → Module `identity` (Aggregate User) — Bounded Context Trust & Governance
 src/sales/              → Module `sales` (Aggregates SalesOrder, Customer) — Bounded Context Sales
 tests/rls/              → teste de CI que falha o build se uma tabela com tenant_id não tiver RLS
 ```
+
+**Layout atual vs. layout-alvo (ADR-0014):** a estrutura acima (`src/tenancy/`,
+`src/identity/`, `src/sales/`, plana) é a implementação real e válida da Fase
+1. `TRS_Architecture_Definition.md` define um layout aninhado de longo prazo
+(`TRS.BuildingBlocks`/`TRS.Kernel`/`Modules`/`Processes`/`TRS.Infrastructure`)
+como destino, não como obrigação imediata — a migração para ele só deve ser
+decidida quando um segundo módulo de negócio real (além de `sales`) entrar em
+implementação (ver Critérios para Revisão Futura do ADR-0014). Não
+reestruturar `src/` antecipadamente com base só na arquitetura-alvo.
 
 ## Gate da Fase 1 (critério de saída, não lista de tarefas)
 
