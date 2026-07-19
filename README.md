@@ -9,9 +9,13 @@ sessão neste repositório — comece por ele.
 
 ## Estado atual
 
-- **Fase 0 (Fundação):** concluída — ADR-0006 a ADR-0014 ratificados,
-  incluindo `docs/foundation/TRS_Architecture_Definition.md` (arquitetura
-  de referência de longo prazo, ADR-0014).
+- **Fase 0 (Fundação):** concluída — ADR-0006 a ADR-0011 ratificados,
+  além do ADR-0014 (adoção da arquitetura-alvo de longo prazo,
+  `docs/foundation/TRS_Architecture_Definition.md`). ADR-0015 (reversão
+  da implementação de Fase 1) e ADR-0016 (correção de governança sobre
+  o layout de `src/`) são decisões posteriores sobre o estado atual do
+  projeto, não pertencem à Fase 0 em si — ver `docs/adr/` para o índice
+  completo e sempre atualizado.
 - **Fase 1 (Vertical Zero):** em planejamento/documentação — **nenhum
   Aggregate está implementado no momento.** Uma primeira implementação
   (`Tenant`, `User`, `Customer`, `SalesOrder`, repositories Postgres/SQL

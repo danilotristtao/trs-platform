@@ -23,7 +23,7 @@ por escrito no ADR correspondente, não em um comentário de código:
 Se a decisão for cara de reverter (afeta persistência, tenancy,
 vocabulário do domínio, ou introduz conceito novo no Kernel), ela
 precisa de um ADR próprio em `docs/adr/ADR-00XX-nome.md`, seguindo o
-formato dos ADR-0006 a 0013. Não implementar antes de ratificar.
+formato dos ADRs já existentes em `docs/adr/`. Não implementar antes de ratificar.
 
 ## Regras que não podem ser esquecidas em nenhuma sessão
 

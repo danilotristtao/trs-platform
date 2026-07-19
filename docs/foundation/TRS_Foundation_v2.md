@@ -542,6 +542,15 @@ nos arquivos.
 | **ADR-0007** — Tenant Isolation Strategy | `/docs/adr/ADR-0007-tenant-isolation-strategy.md` | **Row-Level Security (RLS) compartilhado é o único modelo de persistência multi-tenant da Fase 1 à Fase 7** — sem exceção, sem schema dedicado, sem "híbrido" ambíguo. Database dedicado por tenant é decisão explicitamente futura, sujeita a ADR próprio quando houver caso real. |
 | **ADR-0008** — Rule Placement Standard | `/docs/adr/ADR-0008-rule-placement-standard.md` | Tabela de 7 tipos de lógica com local autoritativo único. Corrige a versão anterior: cálculo decisório/financeiro (preço, imposto, limite de crédito) pertence ao Aggregate/Domain Service, não à Projection Layer — só derivação sem relevância decisória vai para lá. Define a fronteira entre Authorization Layer ("pode tentar?") e Policy Layer ("é permitido neste contexto?"). |
 
+**Escopo desta tabela:** permanece restrita aos três ADRs que
+motivaram originalmente a extração para arquivos próprios (as decisões
+técnicas mais caras de reverter, resolvidas ainda na Fase 0). Novos
+ADRs (0009 em diante — domínio, infraestrutura, auditoria, governança)
+não são adicionados aqui automaticamente só por existirem; a lista
+completa e sempre atualizada de todos os ADRs ratificados, com LL/AR/
+Fase, vive na matriz de rastreabilidade (Parte IX.4) — esta tabela não
+deve duplicá-la.
+
 **Nota de processo:** manter os ADRs como arquivos independentes (em vez
 de embutidos no documento mestre, como na v2.0 original) é, em si, uma
 aplicação de AR-CHG-003 (versões publicadas são imutáveis, alterações
@@ -573,7 +582,12 @@ por causa do achado da Parte III (LL-003 é a maior lacuna de mercado).
 - Autorização básica (Permission mínimo).
 - Audit log imutável (AR-CHG-005, AR-TXN não aplicável ainda).
 - **Campo obrigatório de rationale** em toda entidade crítica desde o primeiro objeto de negócio criado (AR-KNW-001) — esta é a mudança em relação ao roadmap anterior.
-- Objeto de negócio único: `SalesOrder`, com CRUD simples.
+- Objetos de negócio: `Tenant`, `Company` (Module `tenancy`, ADR-0013) e
+  `User` (Module `identity`), no Bounded Context Trust & Governance;
+  `SalesOrder` e `Customer` (Module `sales`, ADR-0009), no Bounded
+  Context Sales — cinco Aggregates ao todo, com CRUD simples, cada um
+  preservando sua fronteira de contexto (ADR-0006), não um único
+  objeto de negócio compartilhado.
 - API REST e console administrativo mínimo.
 
 **Gate:** nenhuma operação relevante ocorre sem autorização registrada, autor identificado e motivo capturado.
@@ -650,7 +664,7 @@ por causa do achado da Parte III (LL-003 é a maior lacuna de mercado).
 3. **Política vs. invariante:** integridade estrutural e financeira não pode virar política desativável por engano (AR-RUL-003).
 4. **Policy Engine 2.0:** mitigado por DSL limitada e tipada, simulação obrigatória, detecção de conflito, limites de complexidade e expiração de política.
 5. **Excesso de engines paralelos:** no MVP, os "engines" do Kernel são módulos internos de um monólito modular — não microserviços desde o dia 1.
-6. **Distribuição prematura:** o baseline é monólito + PostgreSQL + outbox; sagas e event sourcing completo vêm depois, com ADR próprio.
+6. **Distribuição prematura:** o baseline é monólito modular com persistência relacional (PostgreSQL e SQL Server, ADR-0011), **sem outbox** — outbox entra na Fase 3, quando o roadmap exigir integração assíncrona (ver VI.1, ADR-0012); sagas e event sourcing completo vêm depois, com ADR próprio.
 7. **Governança que vira burocracia:** mitigado por proporcionalidade ao risco e por um caminho de break-glass auditado.
 8. **IA sem fidelidade:** a IA apresenta e traduz evidência; nunca inventa a causa de uma decisão (AR-EXP-003).
 9. **Métricas manipuláveis:** nenhuma métrica isolada (ex: contagem de exceções) deve ser usada sozinha — combinar contagem, complexidade, dependências, incidentes e tempo de compreensão.
