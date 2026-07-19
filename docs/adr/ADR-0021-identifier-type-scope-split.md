@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (corrige ADR-0018 — `IdentifierType` violava a regra de classificação por tabela do ADR-0017) |
+| **Status** | Aceito (corrige ADR-0018 — `IdentifierType` violava a regra de classificação por tabela do ADR-0017). **Corrigido por ADR-0024**: terminologia "duas tabelas/Aggregates" precisada para "um Aggregate conceitual, duas tabelas físicas"; `deployment_identifier_type_tenant_availability` e `business_entity_identifiers` receberam classificação de escopo (Tenant Scope) e RLS próprias, antes ausentes; índices de unicidade condicionais adicionados. |
 | **Data** | 2026-07-19 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-007 (Change Governance) |

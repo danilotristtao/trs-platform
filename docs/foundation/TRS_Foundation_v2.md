@@ -755,6 +755,7 @@ necessariamente como cargos separados:
 | ADR-0021 (IdentifierType Scope Split) | LL-007 | AR-TXN-001, AR-CHG-003 | 1 (corrige ADR-0018) |
 | ADR-0022 (Code Generation Strategy Semantics Fix) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0020) |
 | ADR-0023 (Deployment Topology / Tenant Isolation Clarification) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 0/1 (esclarece ADR-0007) |
+| ADR-0024 (IdentifierType Split Precision Fixes) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0021) |
 
 **Requisito ↔ Mecanismo ↔ Evidência (amostra — expandir conforme a implementação avança)**
 
