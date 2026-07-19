@@ -1799,29 +1799,37 @@ Ainda precisam ser discutidas ou reconciliadas:
 
 # 29. Próximos Passos
 
-A sequência acordada (reconciliação de 2026-07-19) é:
+A sequência acordada (reconciliação de 2026-07-19) — **status atualizado**:
 
 ```text
-1. Corrigir este documento consolidado (feito — ver Seção 26)
+1. Corrigir este documento consolidado — FEITO (ver Seção 26)
         ↓
-2. ADR — Platform / Deployment / Tenant Scope (inclui revisão do ADR-0007)
+2. ADR — Platform / Deployment / Tenant Scope — FEITO (ADR-0017,
+   inclui a revisão do ADR-0007 no mesmo documento)
         ↓
-3. ADR — BusinessEntity / relação com Customer e Company
+3. ADR — BusinessEntity / relação com Customer e Company — FEITO
+   (ADR-0018, cria Bounded Context Party Management, revisa ADR-0009)
         ↓
-4. ADR — Data Lifecycle Policy (estratégia de exclusão de dados)
+4. ADR — Data Lifecycle Policy — FEITO (ADR-0019)
         ↓
-5. ADR — Business Code Generation Policy (generaliza ADR-0013)
+5. ADR — Business Code Generation Policy — FEITO (ADR-0020, revisa
+   ADR-0013)
         ↓
-6. Auditoria documental completa
+6. Auditoria documental completa — FEITO (IX.4 e CLAUDE.md
+   sincronizados com ADR-0017 a ADR-0020)
         ↓
-7. Retomar User Organizational Scope
+7. Retomar User Organizational Scope — PENDENTE (Fase 2, phase-gated)
         ↓
-8. Discutir Functional Permission
+8. Discutir Functional Permission — PENDENTE (Fase 2, phase-gated)
         ↓
-9. Discutir Data Scope
+9. Discutir Data Scope — PENDENTE (Fase 2, phase-gated)
         ↓
-10. Reconciliar Authorization com ADR-0008/0009
+10. Reconciliar Authorization com ADR-0008/0009 — PENDENTE (Fase 2)
 ```
+
+Itens 7-10 permanecem deliberadamente fora de escopo — ADR-0009 já
+posiciona autorização contextual avançada como Fase 2 (ver Seção 24
+deste documento), e nenhum ADR desta rodada antecipou isso.
 
 ---
 

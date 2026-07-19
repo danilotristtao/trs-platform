@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (incorpora revisão técnica sobre a versão Proposta anterior — três ajustes descritos na seção "Correção em relação à versão anterior") |
+| **Status** | Aceito (incorpora revisão técnica sobre a versão Proposta anterior — três ajustes descritos na seção "Correção em relação à versão anterior"). Revisado parcialmente por **ADR-0018**: `Customer` deixa de ter `name`/`tax_id` embutidos, passa a referenciar `BusinessEntity` (Bounded Context Party Management) por ID; a invariante de `tax_id` único migra para `BusinessEntityIdentifier`. `Tenant`, `User` e as demais invariantes de `SalesOrder` permanecem inalteradas. |
 | **Data** | 2026-07-12 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-001, LL-002, LL-003, LL-004, LL-006, LL-007 |

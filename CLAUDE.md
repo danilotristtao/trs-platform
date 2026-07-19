@@ -67,17 +67,44 @@ formato dos ADRs já existentes em `docs/adr/`. Não implementar antes de ratifi
   ("é permitido neste contexto?") são camadas diferentes — não
   duplicar regra entre elas.
 - **Modelo de domínio da Fase 1 (ADR-0009, revisado parcialmente por
-  ADR-0013):** os Aggregates desta fase são `Tenant`, `User`,
-  `SalesOrder`, `Customer` (ADR-0009) e `Company` (ADR-0013, Module
-  `tenancy` — estrutura de matriz/filial dentro do Tenant, não um
-  Tenant por filial). `role` em
-  `User` tem exatamente dois valores fixos (`tenant_admin`, `member`) —
-  não expandir informalmente antes da Fase 2. `reason_code` de
-  Rationale tem vocabulário controlado (`routine_creation` como
-  default, dispensa `human_statement`; `manual_override`,
-  `exception_approval`, `correction` exigem `human_statement`). Toda
-  `SalesOrderLine` de um mesmo `SalesOrder` DEVE compartilhar a mesma
-  moeda — rejeitado pelo próprio Aggregate, nunca pela UI.
+  ADR-0013 e ADR-0018):** os Aggregates desta fase são `Tenant`,
+  `User`, `SalesOrder`, `Customer` (ADR-0009, `Customer` revisado por
+  ADR-0018), `Company` (ADR-0013, Module `tenancy` — estrutura de
+  matriz/filial dentro do Tenant, não um Tenant por filial),
+  `BusinessEntity` e `IdentifierType` (ADR-0018, Module `parties`,
+  novo Bounded Context **Party Management**). `role` em `User` tem
+  exatamente dois valores fixos (`tenant_admin`, `member`) — não
+  expandir informalmente antes da Fase 2. `reason_code` de Rationale
+  tem vocabulário controlado (`routine_creation` como default,
+  dispensa `human_statement`; `manual_override`, `exception_approval`,
+  `correction` exigem `human_statement`). Toda `SalesOrderLine` de um
+  mesmo `SalesOrder` DEVE compartilhar a mesma moeda — rejeitado pelo
+  próprio Aggregate, nunca pela UI.
+- **`Customer` não tem `name`/`tax_id` embutidos (ADR-0018).** `Customer`
+  referencia `BusinessEntity` por `business_entity_id` — identidade
+  (nome, identificadores oficiais como CNPJ/CPF) vive em `BusinessEntity`/
+  `BusinessEntityIdentifier`, nunca duplicada por Bounded Context.
+  `EconomicGroup` é reconhecido arquiteturalmente mas **não** é
+  implementado nesta fase (sem caso de uso concreto).
+- **Escopo de dado (ADR-0017):** toda tabela nova é classificada
+  explicitamente em Tenant Scope (`tenant_id` + RLS, o padrão),
+  Platform Scope (sem `tenant_id`, sem RLS — conteúdo de referência
+  da TRS, ex.: `IdentifierType` oficial) ou Deployment Scope (sem
+  `tenant_id` único, RLS via tabela de disponibilidade `EXISTS`-based
+  — ex.: `IdentifierType` personalizado por deployment). Nenhuma
+  tabela é Tenant Scope "por padrão silencioso".
+- **Exclusão de dados (ADR-0019):** Operational Status (`status`),
+  Logical Delete (`deleted_at`), Archive e Physical Delete são quatro
+  conceitos diferentes — nenhum Aggregate é obrigado a suportar os
+  quatro. `deleted_at` é filtro de aplicação, nunca mecanismo de
+  isolamento de tenant. Nenhum Aggregate ratificado suporta Physical
+  Delete nesta fase.
+- **Geração de código de negócio (ADR-0020):** `config_code_sequences`
+  (ADR-0013) é política transversal, não exclusiva de `Company` —
+  `scope_id` (Tenant ou Company), estratégias `high_performance`
+  (default)/`transactional_gapless`/`regulated`, sempre via
+  `SELECT ... FOR UPDATE`/`UPDLOCK`, nunca `SEQUENCE` nativa nem
+  trigger.
 - **`Approval` não existe como Aggregate nesta fase.** Não criar
   tabela, classe ou conceito `Approval` até a Fase 2 (Policy) e Fase 3
   (Workflow) começarem formalmente. `sales.approval.threshold` é

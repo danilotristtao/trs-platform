@@ -584,10 +584,13 @@ por causa do achado da Parte III (LL-003 é a maior lacuna de mercado).
 - **Campo obrigatório de rationale** em toda entidade crítica desde o primeiro objeto de negócio criado (AR-KNW-001) — esta é a mudança em relação ao roadmap anterior.
 - Objetos de negócio: `Tenant`, `Company` (Module `tenancy`, ADR-0013) e
   `User` (Module `identity`), no Bounded Context Trust & Governance;
-  `SalesOrder` e `Customer` (Module `sales`, ADR-0009), no Bounded
-  Context Sales — cinco Aggregates ao todo, com CRUD simples, cada um
-  preservando sua fronteira de contexto (ADR-0006), não um único
-  objeto de negócio compartilhado.
+  `SalesOrder` e `Customer` (Module `sales`, ADR-0009, `Customer`
+  revisado por ADR-0018), no Bounded Context Sales; `BusinessEntity` e
+  `IdentifierType` (Module `parties`, ADR-0018), no Bounded Context
+  Party Management — sete Aggregates ao todo, com CRUD simples, cada
+  um preservando sua fronteira de contexto (ADR-0006), não um único
+  objeto de negócio compartilhado. `EconomicGroup` é reconhecido
+  arquiteturalmente (ADR-0018) mas não implementado nesta fase.
 - API REST e console administrativo mínimo.
 
 **Gate:** nenhuma operação relevante ocorre sem autorização registrada, autor identificado e motivo capturado.
@@ -746,6 +749,9 @@ necessariamente como cargos separados:
 | ADR-0015 (Fase 1 Implementation Reversion) | LL-003, LL-007 | AR-CHG-003, AR-CHG-005 | 1 |
 | ADR-0016 (Nested Layout Retroactive Ratification) | LL-007 | AR-CHG-003, AR-RUL-005 | 0/1 (revisa critério do ADR-0014) |
 | ADR-0017 (Platform/Deployment/Tenant Scope) | LL-001, LL-005, LL-007 | AR-TXN-001, AR-TXN-002, AR-KNW-003, AR-EXP-005, AR-EXT-001, AR-CHG-003 | 0 (revisa parcialmente ADR-0006 e ADR-0007) |
+| ADR-0018 (BusinessEntity / Party Management) | LL-002, LL-005, LL-007 | AR-TXN-001, AR-RUL-001, AR-EXP-005, AR-CHG-003 | 1 (revisa parcialmente ADR-0006 e ADR-0009) |
+| ADR-0019 (Data Lifecycle Policy) | LL-004, LL-007, LL-008 | AR-TXN-001, AR-KNW-001, AR-CHG-005 | 1 |
+| ADR-0020 (Business Code Generation Policy) | LL-001, LL-005, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (revisa parcialmente ADR-0013) |
 
 **Requisito ↔ Mecanismo ↔ Evidência (amostra — expandir conforme a implementação avança)**
 

@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (revisa parcialmente ADR-0009 — adiciona um quinto Aggregate à Fase 1) |
+| **Status** | Aceito (revisa parcialmente ADR-0009 — adiciona um quinto Aggregate à Fase 1). Revisado parcialmente por **ADR-0020**: `config_code_sequences` deixa de ser mecanismo específico de `Company` e passa a ser política transversal (`scope_id` generalizado, estratégias `high_performance`/`transactional_gapless`/`regulated`) — o schema e o comportamento para `Company.code` permanecem inalterados. |
 | **Data** | 2026-07-12 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-001 (Parameter Explosion), LL-008 (Exception-Driven Software), LL-005 (Customization Debt), LL-007 (Change Governance) |
