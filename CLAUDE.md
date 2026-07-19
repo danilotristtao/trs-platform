@@ -122,21 +122,20 @@ docs/lessons-learned/   → LL-001 a LL-008 (contexto histórico e critérios de
 docs/foundation/        → TRS_Foundation_v2.md (requisitos AR-*, roadmap) e
                           TRS_Architecture_Definition.md (arquitetura-alvo de longo
                           prazo da solution — ADR-0014)
-migrations/             → schema PostgreSQL, com RLS desde a primeira migração
-src/tenancy/            → Module `tenancy` (Aggregates Tenant, Company — ADR-0013) — Bounded Context Trust & Governance
-src/identity/           → Module `identity` (Aggregate User) — Bounded Context Trust & Governance
-src/sales/              → Module `sales` (Aggregates SalesOrder, Customer) — Bounded Context Sales
-tests/rls/              → teste de CI que falha o build se uma tabela com tenant_id não tiver RLS
+src/                    → skeleton vazio da arquitetura-alvo (TRS.BuildingBlocks,
+                          TRS.Kernel/{Tenancy,Identity,Audit}, TRS.Infrastructure/
+                          Database/{PostgreSQL,SqlServer}, TRS.ApplicationHost,
+                          TRS.DatabaseMigrator, Modules/) — sem lógica de domínio
 ```
 
-**Layout atual vs. layout-alvo (ADR-0014):** a estrutura acima (`src/tenancy/`,
-`src/identity/`, `src/sales/`, plana) é a implementação real e válida da Fase
-1. `TRS_Architecture_Definition.md` define um layout aninhado de longo prazo
-(`TRS.BuildingBlocks`/`TRS.Kernel`/`Modules`/`Processes`/`TRS.Infrastructure`)
-como destino, não como obrigação imediata — a migração para ele só deve ser
-decidida quando um segundo módulo de negócio real (além de `sales`) entrar em
-implementação (ver Critérios para Revisão Futura do ADR-0014). Não
-reestruturar `src/` antecipadamente com base só na arquitetura-alvo.
+**Estado real vs. ADRs de domínio (ADR-0015):** `src/` hoje é só o skeleton
+vazio acima — nenhum Aggregate (`Tenant`, `User`, `SalesOrder`, `Customer`,
+`Company`), Repository, migration ou teste está implementado. Isso **não**
+revoga o modelo de domínio ratificado em ADR-0009/0011/0012/0013 — só reflete
+que a implementação de Fase 1 foi deliberadamente removida em 2026-07-19
+(ADR-0015) para retomar planejamento antes de reescrever. Antes de reimplementar,
+ver os tópicos pendentes registrados no ADR-0015 (cadastros a definir antes do
+módulo `sales`; estratégia de exclusão de dados). Ver também `src/README.md`.
 
 ## Gate da Fase 1 (critério de saída, não lista de tarefas)
 

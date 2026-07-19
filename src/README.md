@@ -1,62 +1,72 @@
-# src/ — scaffolding C#/.NET (Fase 1)
+# src/ — skeleton da arquitetura-alvo (Fase 1, ainda sem implementação)
 
 Linguagem decidida: **C#/.NET** (ADR-0010, `docs/adr/ADR-0010-backend-language.md`).
-Target framework: `net8.0` (LTS, único SDK instalado no ambiente de
-desenvolvimento atual).
+Target framework: `net8.0` (LTS).
 
 **Banco de dados: PostgreSQL e SQL Server suportados desde a Fase 1,
 Oracle arquitetado para o futuro** (ADR-0011, revisão parcial de
 ADR-0007 — RLS continua obrigatório sem exceção quando o motor for
-PostgreSQL).
+PostgreSQL; Security Policy/`SESSION_CONTEXT` é o equivalente no SQL
+Server).
 
-## Estado atual
+## Estado atual — só skeleton, sem domínio
 
-Os três módulos de domínio existem como código C#/.NET real, cada um
-mapeado 1:1 a um Bounded Context (ADR-0006 — nenhum Module atravessa
-mais de um Bounded Context):
+Nenhum Aggregate está implementado. O que existe é o esqueleto físico
+da arquitetura-alvo definida em
+`docs/foundation/TRS_Architecture_Definition.md` (ratificada pelo
+ADR-0014), criado em 2026-07-19:
 
-- `tenancy/`  → Bounded Context Trust & Governance — Aggregate `Tenant`
-- `identity/` → Bounded Context Trust & Governance — Aggregate `User`
-  (+ Value Object `EmailAddress`)
-- `sales/`    → Bounded Context Sales — Aggregates `SalesOrder`,
-  `Customer` (+ Value Objects `Money`, `TaxId`)
+```
+TRS.BuildingBlocks/                          → vazio (Domain, Application,
+                                                 Contracts/{Messaging,Versioning},
+                                                 Persistence, Observability)
+TRS.Kernel/
+  ├── Tenancy/    → Trs.Kernel.Tenancy.csproj    (vazio, ref. BuildingBlocks)
+  ├── Identity/   → Trs.Kernel.Identity.csproj   (vazio, ref. BuildingBlocks)
+  └── Audit/      → Trs.Kernel.Audit.csproj      (vazio, ref. BuildingBlocks)
+TRS.Infrastructure/Database/
+  ├── PostgreSQL/ → Trs.Infrastructure.Database.PostgreSQL.csproj
+  │                 (vazio; pacote Npgsql.EntityFrameworkCore.PostgreSQL já referenciado)
+  └── SqlServer/  → Trs.Infrastructure.Database.SqlServer.csproj
+                    (vazio; pacote Microsoft.EntityFrameworkCore.SqlServer já referenciado)
+TRS.ApplicationHost/                         → console stub (Program.cs padrão)
+TRS.DatabaseMigrator/                        → console stub (Program.cs padrão)
+Modules/                                     → vazio (Sales entra aqui quando retomar)
+```
 
-Nenhum deles acessa banco diretamente — só interfaces de Repository
-(`ITenantRepository`, `IUserRepository`, `ICustomerRepository`,
-`ISalesOrderRepository`), definidas junto ao domínio, conforme
-ADR-0011. A implementação de cada motor vive em módulos de
-infraestrutura separados:
+Todos os `.csproj` estão registrados em `TrsPlatform.sln` e o build
+passa limpo (`dotnet build TrsPlatform.sln`). Nenhum arquivo `.cs` tem
+lógica além do `Program.cs` gerado por template.
 
-- `infrastructure/postgres/` → **implementado**. `TrsDbContext` (EF
-  Core + Npgsql), Repositories para os quatro Aggregates,
-  `TenantContextInterceptor` centralizando `SET app.tenant_id` na
-  abertura de conexão (ADR-0007).
-- `infrastructure/sqlserver/` → **pendente** (ver README próprio nesse
-  diretório) — migration T-SQL, Security Policy/`SESSION_CONTEXT` e
-  implementação dos mesmos Repository interfaces ainda faltam.
+## O que foi removido em 2026-07-19
 
-Invariantes de Aggregate protegidos em métodos/construtores da própria
-classe (nunca em validação de ORM ou de Repository); Value Objects como
-`record` types. Testes unitários em `tests/Trs.Tenancy.Tests/`,
-`tests/Trs.Identity.Tests/`, `tests/Trs.Sales.Tests/` cobrem os
-invariantes de cada Aggregate — em especial a rejeição de
-`SalesOrderLine` com moeda diferente das demais (ADR-0009, ajuste 3) e
-a exigência de `human_statement` quando `reason_code` não é
-`routine_creation` (ADR-0009, ajuste 1).
+A implementação anterior — Aggregates `Tenant`, `User`, `Customer`,
+`SalesOrder` (ADR-0009/0013), Repository interfaces, infraestrutura
+Postgres (EF Core + Npgsql) e SQL Server, `migrations/` dos dois
+motores e os testes unitários/CI de RLS — foi apagada por decisão do
+usuário, para retomar a fase de documentação/planejamento antes de
+reescrever o código. Isso **não** reverte nenhum ADR: os Aggregates e
+invariantes continuam ratificados em ADR-0009/0011/0013, só ainda não
+têm código correspondente.
 
-`migrations/0001_init.sql` já é código real (PostgreSQL, ADR-0007) e
-continua podendo ser aplicado/testado independentemente do progresso do
-código de aplicação. A migration equivalente em T-SQL para SQL Server
-ainda não existe — é pendência real, não apenas teórica, antes de
-qualquer tabela rodar nesse motor (ADR-0011).
+## Deliberadamente fora do skeleton (phase-gating, ADR-0006 Regra 24/25)
 
-## Pendências conhecidas (não incluídas neste passo)
+`Kernel/Authorization`, `Kernel/Metadata`, `Kernel/Configuration`,
+`Kernel/Extensibility`, `Processes/`,
+`TRS.Infrastructure/Messaging/{Outbox,Inbox,EventBus}` — nenhum tem
+caso de uso concreto da Fase 1. Não criar nem como pasta vazia sem
+decisão explícita.
 
-- Infraestrutura SQL Server completa (`infrastructure/sqlserver/`).
-- Teste de integração contra Postgres real (RLS end-to-end).
-- Teste automatizado do gate da Fase 1 (autorização + autor + motivo em
-  toda operação relevante — ver `CLAUDE.md`, "Gate da Fase 1").
-- Host/API (contrato REST/JSON + OpenAPI com o frontend, ADR-0010) —
-  ainda não iniciado.
-- `Approval` não existe como Aggregate nesta fase (ADR-0009) — não
-  antecipar.
+## Antes de escrever código de domínio
+
+Dois tópicos ainda sem ADR, a discutir antes de reescrever qualquer
+Aggregate:
+
+1. **Cadastros** a definir antes do módulo `sales` retomar.
+2. **Estratégia de exclusão de dados** (lógica vs. física, performance).
+
+## Fluxo de trabalho
+
+A implementação é escrita manualmente pelo usuário no VS Code. Claude
+Code gera código sugerido na conversa quando solicitado, mas não
+escreve diretamente arquivos `.cs` de domínio/aplicação neste projeto.
