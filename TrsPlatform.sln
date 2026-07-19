@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trs.Identity.Tests", "tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trs.Sales.Tests", "tests\Trs.Sales.Tests\Trs.Sales.Tests.csproj", "{E7BBACEA-21D9-4BB3-AFBF-3A89DB24B7B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trs.Infrastructure.SqlServer", "src\infrastructure\sqlserver\Trs.Infrastructure.SqlServer.csproj", "{472C2CA2-A51F-4D5C-B83C-C12F2ECBD93A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{E7BBACEA-21D9-4BB3-AFBF-3A89DB24B7B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7BBACEA-21D9-4BB3-AFBF-3A89DB24B7B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7BBACEA-21D9-4BB3-AFBF-3A89DB24B7B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{472C2CA2-A51F-4D5C-B83C-C12F2ECBD93A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472C2CA2-A51F-4D5C-B83C-C12F2ECBD93A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472C2CA2-A51F-4D5C-B83C-C12F2ECBD93A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472C2CA2-A51F-4D5C-B83C-C12F2ECBD93A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4949C3F7-6C2F-48BB-9FE1-2A4936006DCF} = {E8A19087-9E70-406F-B592-885D857B5EB5}
@@ -70,5 +76,6 @@ Global
 		{9A0C3624-7F12-4B69-8624-1B11151269A8} = {A0C2E105-F187-4915-A2A4-21BC880D74EF}
 		{9E12D340-752B-4EA5-A716-C4A6A8C553F0} = {A0C2E105-F187-4915-A2A4-21BC880D74EF}
 		{E7BBACEA-21D9-4BB3-AFBF-3A89DB24B7B3} = {A0C2E105-F187-4915-A2A4-21BC880D74EF}
+		{472C2CA2-A51F-4D5C-B83C-C12F2ECBD93A} = {151616A8-7A43-4B0B-8307-113DD53B3CC9}
 	EndGlobalSection
 EndGlobal
