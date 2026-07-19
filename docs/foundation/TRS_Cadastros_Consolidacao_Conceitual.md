@@ -1523,7 +1523,9 @@ Analisar:
 Status:
 
 ```text
-Revisão conceitual necessária
+RESOLVIDO POR ADR-0017 (2026-07-19) — Platform Scope, Deployment
+Scope e Tenant Scope formalizados como vocabulário; Stable Technical
+Key formalizada no ADR-0018.
 ```
 
 ---
@@ -1552,7 +1554,10 @@ são Tenant-Scoped.
 Status:
 
 ```text
-Revisão parcial necessária
+RESOLVIDO POR ADR-0017 (Platform/Deployment/Tenant Scope, revisão
+formal do ADR-0007) e ADR-0023 (esclarece topologia de deployment vs.
+mecanismo de isolamento — RLS continua obrigatório independente de
+banco dedicado por deployment).
 ```
 
 ---
@@ -1583,7 +1588,10 @@ Impactos:
 Status:
 
 ```text
-Reconciliação necessária
+RESOLVIDO POR ADR-0018 (2026-07-19) — Customer referencia
+BusinessEntity por ID, sem name/tax_id embutidos. Phase-gating de
+autorização contextual permanece Fase 2, sem alteração (correto,
+não é pendência a fechar).
 ```
 
 ---
@@ -1645,12 +1653,17 @@ Impactos:
 Status:
 
 ```text
-Análise e possível generalização necessárias
+RESOLVIDO POR ADR-0018 (Company e BusinessEntity permanecem
+separados — propósitos de ownership diferentes, sem relação nesta
+fase) e ADR-0020/ADR-0022 (config_code_sequences generalizado em
+Business Code Generation Policy). Record Organizational Scope
+permanece conceito reconhecido, não implementado (sem caso de uso
+concreto ainda) — não é pendência bloqueadora.
 ```
 
 ---
 
-## Estratégia de Exclusão de Dados (ainda sem ADR)
+## Estratégia de Exclusão de Dados — RESOLVIDA (ADR-0019)
 
 **Correção em relação à versão original deste documento:** a Seção 17
 (Operational Status / Logical Delete / Archive / Physical Delete) foi
@@ -1659,16 +1672,16 @@ trata da reversão do código de implementação da Fase 1 (Aggregates,
 migrations, testes removidos em 2026-07-19), um assunto totalmente
 diferente e sem relação com estratégia de exclusão de dados.
 
-A Seção 17 é, na prática, a primeira proposta concreta para a
-pendência "estratégia de exclusão de dados", registrada como tópico
-em aberto desde antes deste documento existir — que **ainda não tem
-nenhum ADR próprio**.
+A Seção 17 foi a primeira proposta concreta para a pendência
+"estratégia de exclusão de dados", registrada como tópico em aberto
+desde antes deste documento existir.
 
 Status:
 
 ```text
-Nenhum ADR existe ainda — candidato a ADR próprio (ver Seção 29,
-"Próximos Passos")
+RESOLVIDO POR ADR-0019 (2026-07-19) — Operational Status, Logical
+Delete (deleted_at), Archive e Physical Delete formalizados, com
+tabela de aplicação por Aggregate. Não é mais pendência.
 ```
 
 ---
@@ -1759,41 +1772,45 @@ Até este ponto:
 
 ---
 
-# 28. Questões Ainda Pendentes
+# 28. Questões — Status Final (2026-07-19)
 
-Ainda precisam ser discutidas ou reconciliadas:
+**Resolvidas por ADR** (não são mais pendência):
 
-1. localização física/ownership arquitetural definitivo de Platform Reference Data;
+1. ~~localização física/ownership de Platform Reference Data~~ → ADR-0017, ADR-0021 (`platform_identifier_types`).
 
-2. revisão formal do ADR-0007;
+2. ~~revisão formal do ADR-0007~~ → ADR-0017, ADR-0023.
 
-3. tratamento formal de Deployment Scope nos ADRs;
+3. ~~tratamento formal de Deployment Scope nos ADRs~~ → ADR-0017, ADR-0021 (`deployment_identifier_types` + tabela de disponibilidade).
 
-4. schema migration versus reference-data migration;
+7. ~~natureza final de Customer diante de BusinessEntity~~ → ADR-0018.
 
-5. implementação física do histórico de DefinitionVersion;
+8. ~~relação Company × BusinessEntity~~ → ADR-0018 (permanecem separados).
 
-6. lifecycle completo de Platform Reference Data;
+10. ~~estratégia completa de Data Lifecycle Policy~~ → ADR-0019.
 
-7. natureza final de Customer diante de BusinessEntity;
+11. ~~generalização formal de config_code_sequences~~ → ADR-0020, corrigido por ADR-0022.
 
-8. relação Company × BusinessEntity;
+**Pendentes de verdade** (nenhum ADR as resolveu ainda, não bloqueiam Fase 1):
 
-9. implementação futura de EconomicGroup;
+4. Schema migration versus reference-data migration (como `platform_identifier_types` é efetivamente distribuído/atualizado por deployment) — implementação, não conceito; revisar quando o `TRS.DatabaseMigrator` for implementado.
 
-10. estratégia completa de Data Lifecycle Policy (exclusão de dados) — ainda sem ADR;
+5. Implementação física do histórico de `DefinitionVersion` — ADR-0018 já registra isso como lacuna conhecida, não crítica (Critérios para Revisão Futura).
 
-11. generalização formal de config_code_sequences;
+6. Lifecycle completo de Platform Reference Data — parcialmente coberto por ADR-0019 (Operational Status via `status` de `IdentifierType`) e ADR-0018 (`deprecated`), mas o processo de atualização/distribuição de versão oficial não está detalhado.
 
-12. catálogo oficial de tokens de Business Code;
+9. Implementação futura de `EconomicGroup` — deliberadamente não implementado (ADR-0018), por design, não por lacuna.
 
-13. definição futura de User Organizational Scope;
+12. Catálogo oficial fechado de tokens de Business Code (`{YYYY}`, `{SEQ}`, `{COMPANY_CODE}`... ADR-0020 dá exemplos, não uma lista exaustiva final).
 
-14. definição futura de Functional Permission;
+**Fora de escopo por decisão (Fase 2, phase-gated — não é lacuna)**:
 
-15. definição futura de Data Scope;
+13. Definição futura de User Organizational Scope.
 
-16. reconciliação do modelo futuro de autorização com ADR-0008 e ADR-0009.
+14. Definição futura de Functional Permission.
+
+15. Definição futura de Data Scope.
+
+16. Reconciliação do modelo futuro de autorização com ADR-0008 e ADR-0009.
 
 ---
 
@@ -1815,8 +1832,14 @@ A sequência acordada (reconciliação de 2026-07-19) — **status atualizado**:
 5. ADR — Business Code Generation Policy — FEITO (ADR-0020, revisa
    ADR-0013)
         ↓
-6. Auditoria documental completa — FEITO (IX.4 e CLAUDE.md
-   sincronizados com ADR-0017 a ADR-0020)
+6. Auditoria documental completa — FEITO, em duas rodadas.
+   Segunda rodada (mesma data) encontrou 3 contradições técnicas
+   reais, corrigidas por ADR-0021 (IdentifierType separado por
+   escopo — corrige conflito ADR-0017×ADR-0018), ADR-0022 (semântica
+   de high_performance/transactional_gapless — corrige ADR-0020) e
+   ADR-0023 (esclarece topologia de deployment vs. isolamento —
+   ADR-0007). IX.4, CLAUDE.md, README.md e src/README.md
+   sincronizados com ADR-0017 a ADR-0023.
         ↓
 7. Retomar User Organizational Scope — PENDENTE (Fase 2, phase-gated)
         ↓

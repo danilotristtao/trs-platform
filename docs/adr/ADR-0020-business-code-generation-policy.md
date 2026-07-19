@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (revisa parcialmente ADR-0013 — generaliza `config_code_sequences` de mecanismo específico de `Company` para política transversal da plataforma) |
+| **Status** | Aceito (revisa parcialmente ADR-0013 — generaliza `config_code_sequences` de mecanismo específico de `Company` para política transversal da plataforma). **Corrigido por ADR-0022**: a descrição original de `high_performance`/`transactional_gapless` misturava a implementação de uma estratégia com o comportamento da outra — ver ADR-0022 para a semântica correta (a diferença é a duração da transação/lock sobre a linha de sequência, não o cálculo do próximo número). |
 | **Data** | 2026-07-19 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-001 (Parameter Explosion), LL-005 (Customization Debt), LL-007 (Change Governance) |

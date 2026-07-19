@@ -59,11 +59,20 @@ decisão explícita.
 
 ## Antes de escrever código de domínio
 
-Dois tópicos ainda sem ADR, a discutir antes de reescrever qualquer
-Aggregate:
+Os dois tópicos que bloqueavam a reimplementação foram resolvidos
+normativamente em 2026-07-19 (ADR-0017 a ADR-0023 — ver
+`docs/foundation/TRS_Cadastros_Consolidacao_Conceitual.md`). O modelo
+de domínio da Fase 1 agora inclui um Bounded Context a mais, **Party
+Management** (Module `parties`, Aggregates `BusinessEntity` e
+`IdentifierType` — este último fisicamente separado em
+`platform_identifier_types`/`deployment_identifier_types`, ADR-0021),
+ainda sem pasta/projeto físico no skeleton acima — cria-se junto com
+`Modules/Sales` quando a implementação retomar, seguindo o mesmo
+padrão dos demais. `Customer` (ADR-0009) foi revisado por ADR-0018:
+não tem mais `name`/`tax_id` embutidos, referencia `BusinessEntity`
+por ID.
 
-1. **Cadastros** a definir antes do módulo `sales` retomar.
-2. **Estratégia de exclusão de dados** (lógica vs. física, performance).
+Nenhum tópico de domínio segue pendente antes de reimplementar.
 
 ## Fluxo de trabalho
 

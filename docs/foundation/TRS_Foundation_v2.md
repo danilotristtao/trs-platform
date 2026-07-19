@@ -539,7 +539,7 @@ nos arquivos.
 | ADR | Arquivo | Resumo da decisão |
 |---|---|---|
 | **ADR-0006** — Core Domain Meta Model | `/docs/adr/ADR-0006-core-domain-meta-model.md` | Define o vocabulário obrigatório do Kernel (Entity, Value Object, Aggregate, Capability, Module, Bounded Context, Extension, Policy Scope, Event Scope). Module não pode atravessar Bounded Context. Aggregate Root é o produtor canônico do Decision Envelope, restrito a decisões relevantes (ver IV.6). Inclui a meta-regra de introdução de conceitos, que bloqueia deliberadamente a adição de `Command` nesta versão. |
-| **ADR-0007** — Tenant Isolation Strategy | `/docs/adr/ADR-0007-tenant-isolation-strategy.md` | **Row-Level Security (RLS) compartilhado é o único modelo de persistência multi-tenant da Fase 1 à Fase 7** — sem exceção, sem schema dedicado, sem "híbrido" ambíguo. Database dedicado por tenant é decisão explicitamente futura, sujeita a ADR próprio quando houver caso real. |
+| **ADR-0007** — Tenant Isolation Strategy | `/docs/adr/ADR-0007-tenant-isolation-strategy.md` | **Row-Level Security (RLS) compartilhado é o único mecanismo de isolamento de Tenant Scope da Fase 1 à Fase 7** — sem exceção, sem "híbrido" ambíguo. Esclarecido pelo ADR-0023: topologia de infraestrutura (banco dedicado por deployment, ADR-0017) é decisão operacional separada do mecanismo de isolamento — RLS continua obrigatório dentro de qualquer banco, independentemente de quantos Tenants ele contém hoje. |
 | **ADR-0008** — Rule Placement Standard | `/docs/adr/ADR-0008-rule-placement-standard.md` | Tabela de 7 tipos de lógica com local autoritativo único. Corrige a versão anterior: cálculo decisório/financeiro (preço, imposto, limite de crédito) pertence ao Aggregate/Domain Service, não à Projection Layer — só derivação sem relevância decisória vai para lá. Define a fronteira entre Authorization Layer ("pode tentar?") e Policy Layer ("é permitido neste contexto?"). |
 
 **Escopo desta tabela:** permanece restrita aos três ADRs que
@@ -752,6 +752,9 @@ necessariamente como cargos separados:
 | ADR-0018 (BusinessEntity / Party Management) | LL-002, LL-005, LL-007 | AR-TXN-001, AR-RUL-001, AR-EXP-005, AR-CHG-003 | 1 (revisa parcialmente ADR-0006 e ADR-0009) |
 | ADR-0019 (Data Lifecycle Policy) | LL-004, LL-007, LL-008 | AR-TXN-001, AR-KNW-001, AR-CHG-005 | 1 |
 | ADR-0020 (Business Code Generation Policy) | LL-001, LL-005, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (revisa parcialmente ADR-0013) |
+| ADR-0021 (IdentifierType Scope Split) | LL-007 | AR-TXN-001, AR-CHG-003 | 1 (corrige ADR-0018) |
+| ADR-0022 (Code Generation Strategy Semantics Fix) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0020) |
+| ADR-0023 (Deployment Topology / Tenant Isolation Clarification) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 0/1 (esclarece ADR-0007) |
 
 **Requisito ↔ Mecanismo ↔ Evidência (amostra — expandir conforme a implementação avança)**
 

@@ -25,11 +25,17 @@ sessão neste repositório — comece por ele.
   - `src/`: só o skeleton vazio da arquitetura-alvo definida em
     `TRS_Architecture_Definition.md` (ver `src/README.md` para detalhe).
     Sem migrations, sem testes, sem lógica de domínio.
-  - Dois tópicos aguardando discussão antes de reescrever código:
-    1. **Cadastros** a definir antes do módulo `sales` (o que são, onde
-       pertencem no domínio).
-    2. **Estratégia de exclusão de dados** (lógica vs. física,
-       considerando performance) — ainda sem ADR.
+  - **Cadastros e estratégia de exclusão de dados — resolvidos
+    normativamente** (2026-07-19), via `docs/foundation/TRS_Cadastros_Consolidacao_Conceitual.md`
+    e os ADRs: ADR-0017 (Platform/Deployment/Tenant Scope), ADR-0018
+    (`BusinessEntity`, Bounded Context Party Management, revisão de
+    `Customer`), ADR-0019 (Data Lifecycle Policy), ADR-0020 (Business
+    Code Generation Policy) — com correções técnicas em ADR-0021
+    (`IdentifierType` separado por escopo), ADR-0022 (semântica de
+    `high_performance`/`transactional_gapless`) e ADR-0023
+    (esclarecimento de topologia de deployment vs. isolamento de
+    tenant). Nenhum tópico de domínio segue pendente antes de
+    reimplementar; ver `docs/adr/` para o texto completo.
   - Implementação de código é feita manualmente pelo usuário no VS
     Code; Claude Code participa gerando código sugerido na conversa,
     não escrevendo diretamente nos arquivos do projeto.

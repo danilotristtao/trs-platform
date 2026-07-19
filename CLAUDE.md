@@ -166,12 +166,13 @@ src/                    → skeleton vazio da arquitetura-alvo (TRS.BuildingBloc
 
 **Estado real vs. ADRs de domínio (ADR-0015):** `src/` hoje é só o skeleton
 vazio acima — nenhum Aggregate (`Tenant`, `User`, `SalesOrder`, `Customer`,
-`Company`), Repository, migration ou teste está implementado. Isso **não**
-revoga o modelo de domínio ratificado em ADR-0009/0011/0012/0013 — só reflete
-que a implementação de Fase 1 foi deliberadamente removida em 2026-07-19
-(ADR-0015) para retomar planejamento antes de reescrever. Antes de reimplementar,
-ver os tópicos pendentes registrados no ADR-0015 (cadastros a definir antes do
-módulo `sales`; estratégia de exclusão de dados). Ver também `src/README.md`.
+`Company`, `BusinessEntity`, `IdentifierType`), Repository, migration ou
+teste está implementado. Isso **não** revoga o modelo de domínio ratificado
+— só reflete que a implementação de Fase 1 foi deliberadamente removida em
+2026-07-19 (ADR-0015) para retomar planejamento antes de reescrever. Os
+tópicos que bloqueavam a reimplementação (cadastros; estratégia de exclusão
+de dados) **já foram resolvidos** por ADR-0017 a ADR-0023 — nenhum tópico de
+domínio segue pendente. Ver também `src/README.md`.
 
 ## Gate da Fase 1 (critério de saída, não lista de tarefas)
 

@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (revisa parcialmente ADR-0006 — adiciona Bounded Context Party Management — e ADR-0009 — revisa a definição de `Customer`) |
+| **Status** | Aceito (revisa parcialmente ADR-0006 — adiciona Bounded Context Party Management — e ADR-0009 — revisa a definição de `Customer`). **Corrigido por ADR-0021**: a definição física de `IdentifierType` como tabela única com escopo por linha (`scope`: `official`/`custom`) violava a regra de classificação por tabela do ADR-0017 — passa a ser duas tabelas físicas (`platform_identifier_types`, `deployment_identifier_types`); o conceito de domínio (`IdentifierType`) permanece o mesmo, só a realização física muda. |
 | **Data** | 2026-07-19 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-002 (Business Rule Fragmentation), LL-005 (Customization Debt), LL-007 (Change Governance) |
