@@ -86,6 +86,15 @@ formato dos ADRs já existentes em `docs/adr/`. Não implementar antes de ratifi
   `BusinessEntityIdentifier`, nunca duplicada por Bounded Context.
   `EconomicGroup` é reconhecido arquiteturalmente mas **não** é
   implementado nesta fase (sem caso de uso concreto).
+- **Extension by Contract, Never by Modification (ADR-0027).** Toda
+  necessidade específica de cliente é atendida por mecanismo
+  suportado — Metadata → Policy → Workflow → Integration → Extension,
+  nessa ordem — **nunca** por alteração direta de código/schema do
+  core, mesmo que o mecanismo formal ainda não exista (Metadata/
+  Policy/Workflow/Extension são Fase 2-4). Nenhuma "exceção só dessa
+  vez" para atender cliente específico. Módulos só se comunicam via
+  `Contracts` públicos, nunca acessando `Domain`/`Features`/
+  `Infrastructure` uns dos outros diretamente.
 - **Escopo de dado (ADR-0017):** toda tabela nova é classificada
   explicitamente em Tenant Scope (`tenant_id` + RLS, o padrão),
   Platform Scope (sem `tenant_id`, sem RLS — conteúdo de referência

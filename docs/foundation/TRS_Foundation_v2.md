@@ -620,7 +620,13 @@ por causa do achado da Parte III (LL-003 é a maior lacuna de mercado).
 - Verificação automática de compatibilidade em upgrade (AR-EXT-003).
 - Mecanismo de remoção reversível.
 
-**Gate:** um upgrade de versão do core ocorre sem exigir patch manual em nenhuma extensão instalada.
+**Gate (precisado pelo ADR-0027):** duas garantias distintas, não uma
+promessa absoluta única — **(a)** uma atualização de core que preserva
+compatibilidade dos contratos públicos usados por uma extensão nunca
+exige modificação manual dela; **(b)** toda incompatibilidade real
+entre uma nova versão do core e uma extensão instalada é detectável
+automaticamente **antes** da atualização ser aplicada (AR-EXT-003),
+nunca descoberta em produção depois.
 
 ### Fase 5 — Governança de Mudança Completa
 - Ciclo draft/review/approve/publish (AR-CHG-001).
@@ -758,6 +764,7 @@ necessariamente como cargos separados:
 | ADR-0024 (IdentifierType Split Precision Fixes) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0021) |
 | ADR-0025 (Tenant-Safe Referential Integrity Standard) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0009, ADR-0013, ADR-0018, ADR-0024) |
 | ADR-0026 (Deployment Scope Administration) | LL-001, LL-007 | AR-TXN-001, AR-RUL-001, AR-EXT-001 | 1 |
+| ADR-0027 (Extension by Contract Principle) | LL-001, LL-002, LL-005 | AR-EXT-001, AR-EXT-002, AR-EXT-003, AR-EXT-004, AR-EXT-006, AR-RUL-001 | 0 |
 
 **Requisito ↔ Mecanismo ↔ Evidência (amostra — expandir conforme a implementação avança)**
 
