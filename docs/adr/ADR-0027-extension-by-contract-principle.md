@@ -106,3 +106,4 @@ O Gate atual — *"um upgrade de versão do core ocorre sem exigir patch manual 
 - Revisar a árvore de decisão quando a primeira demanda real de cliente passar por ela — confirmar que as categorias fazem sentido na prática, não só na teoria.
 - Revisar quando a Fase 2 (Policy) começar formalmente — a árvore referencia Policy Engine como nó, sem definir seus detalhes; a Fase 2 é quem define isso.
 - Revisar quando a Fase 4 (Extension) começar formalmente — mesmo raciocínio, para o nó de Extension.
+- `docs/foundation/TRS_Referencias_Extensibilidade.md` registra produtos de mercado (ServiceNow, Power Platform/Dataverse, ABP Framework, SAP Clean Core, OutSystems, Frappe, Salesforce, Odoo, Orchard Core) a estudar quando Metadata/Policy/Workflow/Extension forem desenhados de fato — lista de pesquisa, não normativa, não revisar como se fosse decisão.
