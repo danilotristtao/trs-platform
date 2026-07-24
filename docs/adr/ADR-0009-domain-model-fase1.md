@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (incorpora revisão técnica sobre a versão Proposta anterior — três ajustes descritos na seção "Correção em relação à versão anterior"). Revisado parcialmente por **ADR-0018**: `Customer` deixa de ter `name`/`tax_id` embutidos, passa a referenciar `BusinessEntity` (Bounded Context Party Management) por ID; a invariante de `tax_id` único migra para `BusinessEntityIdentifier`. `Tenant`, `User` e as demais invariantes de `SalesOrder` permanecem inalteradas. |
+| **Status** | Aceito (incorpora revisão técnica sobre a versão Proposta anterior — três ajustes descritos na seção "Correção em relação à versão anterior"). Revisado parcialmente por **ADR-0018**: `Customer` deixa de ter `name`/`tax_id` embutidos, passa a referenciar `BusinessEntity` (Bounded Context Party Management) por ID; a invariante de `tax_id` único migra para `BusinessEntityIdentifier`. `Tenant`, `User` e as demais invariantes de `SalesOrder` permanecem inalteradas. **Corrigido por ADR-0025**: `SalesOrder.customer_id` e `SalesOrderLine.sales_order_id` eram FK simples — bug de integridade referencial cross-tenant, mesma classe do já corrigido em `companies` (ADR-0013); passam a FK composta com `tenant_id`. |
 | **Data** | 2026-07-12 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-001, LL-002, LL-003, LL-004, LL-006, LL-007 |

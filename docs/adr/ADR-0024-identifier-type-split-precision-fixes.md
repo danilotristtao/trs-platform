@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (corrige ADR-0021 — terceira rodada de auditoria encontrou uma ambiguidade terminológica e duas lacunas reais de isolamento/integridade) |
+| **Status** | Aceito (corrige ADR-0021 — terceira rodada de auditoria encontrou uma ambiguidade terminológica e duas lacunas reais de isolamento/integridade). **Corrigido por ADR-0025**: `business_entity_identifiers.business_entity_id` era FK simples — upgrade para FK composta com `tenant_id`. |
 | **Data** | 2026-07-19 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-004 (Concurrency and Transactions), LL-007 (Change Governance) |

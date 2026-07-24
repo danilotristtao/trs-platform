@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| **Status** | Aceito (revisa parcialmente ADR-0009 — adiciona um quinto Aggregate à Fase 1). Revisado parcialmente por **ADR-0020**: `config_code_sequences` deixa de ser mecanismo específico de `Company` e passa a ser política transversal (`scope_id` generalizado, estratégias `high_performance`/`transactional_gapless`/`regulated`) — o schema e o comportamento para `Company.code` permanecem inalterados. |
+| **Status** | Aceito (revisa parcialmente ADR-0009 — adiciona um quinto Aggregate à Fase 1). Revisado parcialmente por **ADR-0020**: `config_code_sequences` deixa de ser mecanismo específico de `Company` e passa a ser política transversal (`scope_id` generalizado, estratégias `high_performance`/`transactional_gapless`/`regulated`) — o schema e o comportamento para `Company.code` permanecem inalterados. **Corrigido por ADR-0025**: a constraint `companies_parent_same_tenant` (FK composta) nunca foi tecnicamente válida — referenciava `(tenant_id, id)` sem que essa tabela tivesse uma constraint `UNIQUE`/`PK` sobre exatamente esse par; `UNIQUE (tenant_id, id)` adicionada. |
 | **Data** | 2026-07-12 |
 | **Responsáveis** | Fundação TRS |
 | **Lessons Learned relacionados** | LL-001 (Parameter Explosion), LL-008 (Exception-Driven Software), LL-005 (Customization Debt), LL-007 (Change Governance) |

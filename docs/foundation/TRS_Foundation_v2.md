@@ -756,6 +756,8 @@ necessariamente como cargos separados:
 | ADR-0022 (Code Generation Strategy Semantics Fix) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0020) |
 | ADR-0023 (Deployment Topology / Tenant Isolation Clarification) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 0/1 (esclarece ADR-0007) |
 | ADR-0024 (IdentifierType Split Precision Fixes) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0021) |
+| ADR-0025 (Tenant-Safe Referential Integrity Standard) | LL-004, LL-007 | AR-TXN-001, AR-TXN-002, AR-CHG-003 | 1 (corrige ADR-0009, ADR-0013, ADR-0018, ADR-0024) |
+| ADR-0026 (Deployment Scope Administration) | LL-001, LL-007 | AR-TXN-001, AR-RUL-001, AR-EXT-001 | 1 |
 
 **Requisito ↔ Mecanismo ↔ Evidência (amostra — expandir conforme a implementação avança)**
 
